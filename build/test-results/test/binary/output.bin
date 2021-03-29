@@ -1,0 +1,8 @@
+the coupon 320 is valid
+,the new price is 82% of the original price
+the coupon 340 is not valid
+Dthe ticket ID 130 is available, in this case the cache was helpful
+#the ticket ID 10 is not available
+qthe check in did not succeed, there is no ticket with the provided destination null or/and baggage id BARCELONA
+lthe check in did not succeed, there is no ticket with the provided destination 221 or/and baggage id HAIFA
+<the check in succeeded baggage CHICAGO will be sent to 225
