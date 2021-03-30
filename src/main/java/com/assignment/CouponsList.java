@@ -1,13 +1,17 @@
 package com.assignment;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CouponsList implements Comparable<CouponsList> {
     //field
     private ArrayList<Coupon> databaseOfCoupons;
+    private static final Logger couponLogger = Logger.getLogger(TicketLogger.class.getName());
     //constructor
     public CouponsList() {
         this.databaseOfCoupons = new ArrayList<>();
+
     }
     //copy constructor
     public CouponsList(CouponsList couponsList) {
@@ -58,13 +62,13 @@ public class CouponsList implements Comparable<CouponsList> {
     public Double validateCoupon(Integer couponID,Double Price){
         for (Coupon C : getDatabaseOfCoupons() ) {
             if (C.getCouponID().equals(couponID)) {
-                System.out.println("the coupon "+couponID+" is valid");
+                couponLogger.log(Level.INFO,"the coupon "+couponID+" is valid");
                 Integer r= ((int) (Math.random()*100));
-                System.out.println("the new price is "+r+"% of the original price");
+                couponLogger.log(Level.INFO,"the new price is "+r+"% of the original price");
                 return Price*r/100;
             }
         }
-        System.out.println("the coupon "+couponID+" is not valid");
+        couponLogger.log(Level.INFO,"the coupon "+couponID+" is not valid");
         return Price;
     }
     //prints the DB of coupons

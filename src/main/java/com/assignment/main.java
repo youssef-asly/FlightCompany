@@ -20,26 +20,26 @@ public class main {
         ticketLogger.LogToFile(Level.INFO, String.valueOf(ticketsList.validateBaggage(225,"CHICAGO")));//should return true
         ticketLogger.LogToFile(Level.INFO, String.valueOf(ticketsList.validateBaggage(230,null)));//should return false
         ticketLogger.LogToFile(Level.INFO, String.valueOf(ticketsList.validateBaggage(230,"BARCELONA")));//should return true
-        ticketLogger.LogToFile(Level.INFO, String.valueOf(ticketsList.validateBaggage(330,"BARCELONA")));//should return true
+        ticketLogger.LogToFile(Level.INFO, String.valueOf(ticketsList.validateBaggage(330,"BARCELONA")));//should return false
         ticketLogger.LogToFile(Level.INFO,ticketsList.viewDB());
         Ticket ticket = ticketsList.getTicket(132);
         ticketLogger.LogToFile(Level.INFO,couponsList.viewCoupons());
         if (ticket.equals(null)){
             ticketLogger.LogToFile(Level.INFO,"the ticket does not exist");
         }else {
-            ticketLogger.LogToFile(Level.INFO, "the content of the ticket is " + ticket.toString());
+            ticketLogger.LogToFile(Level.INFO, ticket.toString());
         }
         ticket = ticketsList.getTicket(132);
         if (ticket.equals(null)){
             ticketLogger.LogToFile(Level.INFO,"the ticket does not exist");
         }else {
             ticket.setPrice( couponsList.validateCoupon(322, ticket.getPrice()));
-            ticketLogger.LogToFile(Level.INFO, "the content of the ticket is " + ticket.toString());
+            ticketLogger.LogToFile(Level.INFO,  ticket.toString());
             ticket.setPrice( couponsList.validateCoupon(422, ticket.getPrice()));
-            ticketLogger.LogToFile(Level.INFO, "the content of the ticket is " + ticket.toString());
+            ticketLogger.LogToFile(Level.INFO, ticket.toString());
         }
         Ticket t= ticket; //ticket copy constructor
-        ticketLogger.LogToFile(Level.INFO, "the content of the ticket is " + ticket.toString());
+        ticketLogger.LogToFile(Level.INFO, ticket.toString());
         int identical=ticket.compareTo(t);
         ticketLogger.LogToFile(Level.INFO, "check if tickets are identical " + identical);
         Coupon c = couponsList.getCoupon(322);

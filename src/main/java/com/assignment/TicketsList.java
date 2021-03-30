@@ -1,12 +1,15 @@
 package com.assignment;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TicketsList implements Comparable<TicketsList>{
     //fields
     private ArrayList<Ticket> databaseOfTickets;
     private ArrayList<Integer> cachedTicketIDs;
     private Integer MaxCacheSize;
+    private static final Logger ticketLogger = Logger.getLogger(TicketLogger.class.getName());
     //constructor
     public TicketsList() {
         this.databaseOfTickets=new ArrayList<>();
@@ -118,33 +121,33 @@ public class TicketsList implements Comparable<TicketsList>{
     //a.Check if ticket is available, the first step to check in the cached list, if not available to search in DB, and update the cache with the current search
     public boolean validateTicket(Integer TicketID){
         if (isCached(TicketID)){
-            System.out.println("the ticket ID " + TicketID + " is available, in this case the cache was helpful");
+            ticketLogger.log(Level.INFO,"the ticket ID " + TicketID + " is available, in this case the cache was helpful");
             updateCacheList(TicketID);
             return true;
         }else {
             for (Ticket T : getDatabaseOfTickets()) {
                 if (T.getTicketID().equals(TicketID)) {
-                    System.out.println("the ticket ID " + TicketID + " is available, the information was not in the cached list");
+                    ticketLogger.log(Level.INFO,"the ticket ID " + TicketID + " is available, the information was not in the cached list");
                     updateCacheList(TicketID);
                     return true;
                 }
             }
-            System.out.println("the ticket ID " + TicketID + " is not available");
+            ticketLogger.log(Level.INFO,"the ticket ID " + TicketID + " is not available");
             return false;
         }
     }
     //b. Provide baggage check in service,update ticket with baggage id, or add if it has not before
     public boolean validateBaggage(Integer  DestinationID,String BaggageID){
         if (BaggageID == null){
-            System.out.println("there is no baggage to check in to the destination "+DestinationID);
+            ticketLogger.log(Level.INFO,"there is no baggage to check in to the destination "+DestinationID);
             return false;
         }
         for (Ticket T : getDatabaseOfTickets()) {
             if (BaggageID.equals(T.getBaggage()) && (!T.getDestination().equals(DestinationID))){
-                System.out.println("the check in did not succeed, the destination "+DestinationID+" does not match baggage ID "+ BaggageID);
+                ticketLogger.log(Level.INFO,"the check in did not succeed, the destination "+DestinationID+" does not match baggage ID "+ BaggageID);
                 return false;
             }else if (BaggageID.equals(T.getBaggage()) && T.getDestination().equals(DestinationID)) {
-                System.out.println("the check in succeeded baggage "+BaggageID+" will be sent to "+DestinationID);
+                ticketLogger.log(Level.INFO,"the check in succeeded baggage "+BaggageID+" will be sent to "+DestinationID);
                 updateCacheList(T.getTicketID());
                 return true;
             }
@@ -152,14 +155,14 @@ public class TicketsList implements Comparable<TicketsList>{
          // the is a limitation that only the first occurance of that destination the did not have any baggage before will be updated
         for (Ticket T : getDatabaseOfTickets()) {
             if (T.getDestination().equals(DestinationID) && (T.getBaggage() == null)){
-                System.out.println("the check in succeeded baggage "+BaggageID+" will be sent to "+DestinationID+" that does not have any baggage before");
+                ticketLogger.log(Level.INFO,"the check in succeeded baggage "+BaggageID+" will be sent to "+DestinationID+" that does not have any baggage before");
                 updateCacheList(T.getTicketID());
                 T.setBaggage(BaggageID);
                 getDatabaseOfTickets().set(getDatabaseOfTickets().indexOf(T),T);
                 return true;
             }
         }
-        System.out.println("the check in did not succeed, there is no ticket with the provided destination "+DestinationID+" or/and baggage id "+BaggageID);
+        ticketLogger.log(Level.INFO,"the check in did not succeed, there is no ticket with the provided destination "+DestinationID+" or/and baggage id "+BaggageID);
         return false;
     }
     public String toString(){

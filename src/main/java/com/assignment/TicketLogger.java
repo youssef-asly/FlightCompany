@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 
 public class TicketLogger {
     private static final Logger LOGGER = Logger.getLogger(TicketLogger.class.getName());
+    private static Handler fileHandler = null;
 
     public TicketLogger() {
-        Handler fileHandler  = null;
         try{
             //Creating consoleHandler and fileHandler
             fileHandler  = new FileHandler("./TicketLogger.log");
